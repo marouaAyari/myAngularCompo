@@ -1,0 +1,43 @@
+.header {
+  // background-color: rgb(255, 248, 248);
+  font-weight: bold;
+  height: 50px;
+}
+table {
+  border-left-style: solid;
+  border-left-color: rgb(255, 111, 63);
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.th {
+  font-weight: bold;
+}
+.shrink {
+  transition: all 0.2s ease-in-out;
+}
+
+.shrink:hover {
+  transform: scale(0.9);
+}
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+
+.grow:hover {
+  transform: scale(1.5);
+}
+.grow:active {
+  transform: scale(2);
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 100px);
+}
+
+.img_row{
+  background-size: cover;
+  background:  url(https://d19m59y37dris4.cloudfront.net/jobs/2-0-2/img/company-4.png)
+}

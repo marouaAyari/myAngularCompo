@@ -1,0 +1,68 @@
+<!-- <div class="example-container mat-elevation-z8 "> -->
+<div class="m-3">
+  <div  class="container col-sm-12 row " *ngIf="hasFilter" >
+    <div class="col-sm-6"></div>
+  <div class=" input-group col-sm-6 ">
+      <div class="input-group-prepend" >
+        <span class="input-group-text btn btn-outline-warning" placement="left" ngbTooltip="Filter" (click)="search_()"   id="basic-addon1">
+            <i class="fa fa-search"></i>
+        </span>
+        
+      </div>
+      <div   *ngFor="let item of filterList">
+        <input type="text" class="form-control" placeholder={{item}} aria-label="" aria-describedby="basic-addon1"
+    [ngModel]="filterInput[item]"   (keyup)="applyFilter($event.target.value,item )">
+      </div>
+     </div> <br>
+  </div>
+
+  <div style="height: 15px"></div>
+  <table mat-table [dataSource]="options.ComplexFilter?dataSource:dataSource|mayFilter:filter_:filterValue " matSort
+    class="table table-hover table-responsive">
+    
+    <ng-container *ngFor="let column of columns ;let i = index" matColumnDef="{{column.name}}">
+      <th class="header" *matHeaderCellDef mat-sort-header><b>{{column.label}}</b></th>
+      <td class="raws" mat-cell *matCellDef="let element ; let index = index" (click)="getDetails(element,index)">
+        <!-- <div class="job__star" *ngIf="favouritePos==column.label">
+          <a href="#" data-toggle="tooltip" data-placement="top" title="Save to favourites" class="job__star__link">
+            <i class="fa fa-star"></i>
+          </a>
+        </div> -->
+        <div style="text-align:center;">
+            <!-- <div class="col-sm-1 float-left ">
+              <img src="https://d19m59y37dris4.cloudfront.net/jobs/2-0-2/img/company-4.png"
+              alt="LoremIpsum " class="img-fluid"></div> -->
+          <div class="col-sm-1 float-left" style="display:inline;" *ngIf="i == 0">
+            <div *ngIf="selected==index" style="color:coral"><i class="fa fa-star"></i>
+            </div>
+          </div>
+          <!-- column.propBefore ? list[index][column.propBefore]: -->
+          <div class="col-sm-9" style="display:inline;">
+            <div *ngIf="column.Type !=='checkbox' &&column.Type !=='button'">
+              {{element[column.name]}}
+            </div>
+            <div *ngIf="column.Type =='checkbox' " class="custom-control custom-switch mr-sm-2">
+              <input type="checkbox" class="custom-control-input" id="customControlAutosizing{{index}}{{i}}" checked
+                data-toggle="toggle" name="column.name" data-onstyle="primary" value="true"
+                [ngModel]="element[column.name]" (change)="checkCheckBoxvalue($event,element, column.name)">
+              <label class="custom-control-label" for="customControlAutosizing{{index}}{{i}}"></label>
+            </div>
+            <div *ngIf="column.Type =='button' " class='shrink'>
+              <button type="button" (click)="onclick($event, element,column.label,i)" [ngClass]="column.label==='save'?'btn btn-outline-success':
+                  'btn btn-outline-danger'">
+                <i [ngClass]="column.label==='save'?'fa fa-check':
+                    'fa fa-times'"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+<div class="col-sm-7">
+  <mat-paginator  (page)="onPaginateChange($event)"[pageSizeOptions]=paginators showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+<br>

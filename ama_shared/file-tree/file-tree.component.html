@@ -1,0 +1,35 @@
+  <!-- ******************************NGTEMPLATE ZONE************************************************ -->
+  <ng-template #treeNode let-node="node">
+          <ul>
+            <li *ngFor="let item of node" [ngClass]="{'children-list':isChild}">
+              <div class="trees-items" (click)="toggleItem(item)">
+                <div class="file-ico">
+                  <i class="fa fa-file fa-fw ico" *ngIf="!item.children"></i>
+                  <i class="fa fa-caret-right fa-fw ico"
+                    *ngIf="item.children&&(item.toggle === 'off'||item.toggle === 'init')"></i>
+                  <i class="fa fa-folder fa-fw ico"
+                    *ngIf="item.children&&(item.toggle === 'off'||item.toggle === 'init')"></i>
+                  <i class="fa fa-caret-down fa-fw ico" *ngIf="item.children&&item.toggle === 'on'"></i>
+                  <i class="fa fa-folder-open fa-fw ico" *ngIf="item.children&&item.toggle === 'on'"></i>
+                </div>
+                <span *ngIf="!item.alreadySent" (click)="onClick(item)">{{item.name}}</span>
+                <span  *ngIf="item.alreadySent" class="accent" (click)="onClick(item)">{{item.name}}</span>
+                <br><small *ngIf="item.alreadySent && alreadySent"  style="color: rgb(255, 34, 34)">This test has been already sent to this candidate!</small>
+              </div>
+              <div class="item-children" [@collapse]="item.toggle">
+                  <div *ngIf="item.children">
+                      <div *ngTemplateOutlet="treeNode; context:{node: item.children}"></div>
+                            </div>
+              </div>
+            </li>
+          </ul>
+</ng-template>
+
+<!-- ************************************************************************ -->
+<!-- ***********************************DEPTH =2 :toadd more if needed************************************* -->
+  <div>
+    <div *ngTemplateOutlet="treeNode; context:{node: model}">
+    </div>
+  </div>
+  
+  

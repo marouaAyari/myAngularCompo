@@ -1,0 +1,35 @@
+ 
+<div class="container">
+    <div class="row">
+         <div class="col-sm-6">
+            <div class="form-group">
+                <div class="input-group date" id="datetimepicker6" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker6"/>
+                    <div class="input-group-append" data-target="#datetimepicker6" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker6').datetimepicker({
+                    defaultDate: "11/1/2019",
+                    disabledDates: [
+                        moment("12/25/2019"),
+                        new Date(2013, 11 - 1, 21),
+                        "11/22/2019 00:53"
+                    ]
+                });
+            });
+        </script>
+    </div>
+</div>
+ 
+ 
+
+ <ngb-timepicker [(ngModel)]="time" [meridian]="meridian"></ngb-timepicker>
+<!-- <button class="btn btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}" (click)="toggleMeridian()">
+    Meridian - {{meridian ? "ON" : "OFF"}}
+</button> -->
+<hr>  

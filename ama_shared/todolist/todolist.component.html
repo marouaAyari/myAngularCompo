@@ -1,0 +1,44 @@
+<b> Add a new task to your Todo list : </b>
+<div class="todolist-wrap">
+  <div class="form-group" style="margin-bottom:7px">
+    <input type="text" class="new-task-input" [(ngModel)]="newTaskText" (keyup.enter)="creatNewTask()">
+    <div placement="top" ngbTooltip="Add" id="basic-addon1">
+    <button class="btn btn-outline-primary" (click)="creatNewTask()">
+      <i class="fa fa-plus"></i>
+    </button>
+    </div><br>
+    <div *ngIf="showUpdate"  placement="top" ngbTooltip="Edit" id="basic-addon1">
+    <button class="btn btn-outline-warning" (click)="enableEdit()">
+        <i *ngIf="!isEditable" class="fa fa-pencil"></i>
+        <i *ngIf="isEditable"  class="fa fa-pencil-square-o"></i>
+      </button>
+    </div>
+    
+  </div>
+  <div class="form-group task-list" *ngFor="let item of todolist;let i = index">
+    <button class="over-btn" (click)="overMatter(i)" *ngIf="!item.isEdit">
+      <i style="color:rgb(29, 29, 156)" class="fa fa-square-o" *ngIf="!item.isOver"></i>
+      <i style="color:rgb(138, 219, 6)" class="fa fa-check" *ngIf="item.isOver"></i>
+    </button>
+    <label class="list-text" [ngClass]="{'list-over':item.isOver,'list-text':!item.isOver}" (dblclick)="edit(i)" *ngIf="!item.isEdit"
+      title="{{item.text}}">{{item.text}}</label>
+      <!-- <div class=" col-sm-12 ">
+          <i class="fa fa-times float-right" style="color: rgb(246, 102, 76) " (click)="delete()">
+          </i>
+        </div> -->
+        <br><br>  
+    <input type="text" class="edit-input" [(ngModel)]="item.editText" *ngIf="item.isEdit" (keyup.enter)="enterTaskEdit(i)">
+    <button class="enter-task-edit" *ngIf="item.isEdit" (click)="enterTaskEdit(i)">
+      <i style="color:rgb(138, 219, 6)" class="fa fa-check"></i>
+    </button>
+    <button class="cancel-task-edit" *ngIf="item.isEdit" (click)="cancelTaskEdit(i,item['id'])">
+      <i style="color: crimson" class="fa fa-trash-o"></i>
+    </button>
+  </div>
+
+  <div placement="top" ngbTooltip="Save" id="basic-addon1" class="m-2">
+      <button class="btn btn-outline-success" (click)="save()" [attr.disabled]="isEditable?'':null">
+          <i class="fa fa-magic"></i> save   
+        </button>
+  </div>
+</div>
