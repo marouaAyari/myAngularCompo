@@ -1,0 +1,88 @@
+.textStyle {
+  color: black;
+}
+
+.shrink {
+  transition: all 0.2s ease-in-out;
+}
+
+.shrink:active {
+  transform: scale(0.9);
+}
+
+.grow { 
+transition: all .2s ease-in-out; 
+}
+ 
+.grow:hover { 
+transform: scale(1.2); 
+}
+.badge{
+  box-shadow: 3px 3px #888888;
+}
+
+[tooltip]:before {
+    /* needed - do not touch */
+    content: attr(tooltip);
+    position: absolute;
+    opacity: 0;
+  
+    /* customizable */
+    transition: all 0.15s ease;
+    padding: 10px;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 2px 2px 1px rgb(192, 192, 192);
+  }
+  
+  [tooltip]:hover:before {
+    /* needed - do not touch */
+    opacity: 1;
+    color: white;
+    /* customizable */
+    background: rgb(56, 56, 56);
+    margin-top: -30px;
+    margin-left: 20px;
+  }
+  
+  [tooltip]:not([tooltip-persistent]):before {
+    pointer-events: none;
+  }
+
+.refresh{
+  font-size: 25px; color:rgb(255, 129, 83)
+}
+.alert{
+  box-shadow: 10px 5px 5px gainsboro;
+  -webkit-animation: color_change 1s infinite alternate;
+	-moz-animation: color_change 1s infinite alternate;
+	-ms-animation: color_change 1s infinite alternate;
+	-o-animation: color_change 1s infinite alternate;
+  animation: color_change 1s infinite alternate;
+  
+  animation-name: color_change;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+
+}
+@-webkit-keyframes color_change {
+	from { background-color: rgb(253, 191, 191); }
+	to { background-color: rgb(255, 49, 49);; }
+}
+@-moz-keyframes color_change {
+	from { background-color: rgb(253, 191, 191); }
+	to { background-color: rgb(255, 49, 49);; }
+}
+@-ms-keyframes color_change {
+	from { background-color: rgb(253, 191, 191); }
+	to { background-color: rgb(255, 49, 49);; }
+}
+@-o-keyframes color_change {
+	from { background-color: rgb(253, 191, 191); }
+	to { background-color: rgb(255, 49, 49); }
+}
+@keyframes color_change {
+	from { background-color: rgb(253, 191, 191); }
+	to { background-color: rgb(255, 49, 49);; }
+}

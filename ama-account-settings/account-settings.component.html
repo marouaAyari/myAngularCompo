@@ -1,0 +1,227 @@
+<section class="col-sm-12">
+  <b> <i class="fa fa-cogs"></i> Settings options :</b> <br><br>
+  <div class="accordion " id="accordionExample275">
+    <div class="card z-depth-0 bordered">
+      <div class="card-header" id="heading4">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse4" (click)="toggle(2)"
+            aria-expanded="true" aria-controls="collapse4">
+            <b>Role Managing <i *ngIf="toggle2" class="fa fa-chevron-up"></i>
+              <i *ngIf="!toggle2" class="fa fa-chevron-down"></i>
+            </b>
+          </button>
+        </h5>
+      </div>
+      <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordionExample275">
+        <div class="card-body">
+          <div class="row  col-md-12">
+            <div class="col-md-10"></div>
+            <div class="float-right col-md-2">
+              <button class="btn btn-primary  " (click)="addRole()">
+                <i class="fa fa-plus"></i>
+                add role</button>
+            </div>
+          </div>
+          <br>
+          <form (ngSubmit)="onSubmitRole(formRole)" #formRole="ngForm">
+            <div class="row justify-content-md-center " *ngFor="let role of roleList ; let ind = index;"
+              [ngModelGroup]="ind">
+              <div class="col-md-4 form-group ">
+                <input type="text" class="form-control" name="Nom" required noWhitespace [(ngModel)]="role['Nom']"
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Nom" #Nom="ngModel"
+                  (input)="onChangeRole($event.target.value)">
+
+                <div *ngIf="Nom.invalid && (Nom.dirty || Nom.touched)">
+                  <small *ngIf="Nom.errors.required" style="color: rgb(211, 21, 21)">
+                    the role name is required.
+                  </small>
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <textarea type="text" class="form-control" name="Description" #Description="ngModel"
+                  [(ngModel)]="role['Description']" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                  placeholder="Description">
+                        </textarea>
+              </div>
+              <div class=" col-md-2 pull-right shrink" (click)="removeRole(ind)">
+                <i class="fa fa-trash-o" style='font-size:25px ; color: rgb(240, 89, 109)'>
+                </i>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <button type="submit" class="btn btn-outline-success float-left" [disabled]="formRole.invalid">
+                  <i class="fa fa-magic"></i>Save
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card z-depth-0 bordered">
+        <div class="card-header" id="headingTwo2">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" (click)="SetPrivileges(true)"
+              (click)="toggle(3)" data-target="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2">
+              <b> privilege granting
+                <i *ngIf="toggle3" class="fa fa-chevron-up"></i>
+                <i *ngIf="!toggle3" class="fa fa-chevron-down"></i>
+              </b>
+            </button>
+          </h5>
+        </div>
+        <div align="center">
+            <div *ngIf="refreshTable" class=" row col-sm-12 m-2 p-2" role="alert">
+              <div class="refresh grow col-sm-3" (click)="reloadTable()" placement="left" ngbTooltip="refresh" id="basic-addon1">
+                <i class="fa fa-refresh"></i>
+              </div>
+              <div class="alert alert-danger col-sm-6">
+                <strong> OUPS the list is not being refreshed automatically! Please click on Refesh !</strong>
+              </div>
+              <div class="col-sm-3"></div>
+            </div>
+          </div>
+        <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo2" data-parent="#accordionExample275">
+          <div class="card-body" *ngIf="ready">
+            <app-aoso-table [data]="usersData" [options]="{
+                                      givePrivilege:true, 
+                                      parent:'role',
+                                      columns:columns, 
+                                      hasFilter:true ,
+                                      filterList:['nom'],
+                                      tableName:' recruters \'s '}" (upmessage)="onUpmessage($event)">
+            </app-aoso-table>
+          </div>
+       
+          <div align="center">
+            <div *ngIf="seeUsers && ! refreshTable" class="card col-sm-10 p-5 m-2">
+              <div class="float-left col-sm-2 shrink" placement="left" ngbTooltip="refresh" id="basic-addon1">
+                <i style="font-size: 20px; color:rgb(255, 129, 83)" (click)="refresh()" class="fa fa-history"></i>
+              </div>
+              <h4 class="heading">users having <span class="accent">{{selectedRole}}</span> role</h4>
+              <span *ngIf="selectedRole ==role " class="badge badge-warning">You are in this role
+                category</span><br><br>
+              <div *ngFor="let item of usersList;let ind=index">
+                <div class="container">
+                  <div class="job-listing job-listing--featured ">
+                    <div class="row">
+                      <div class="col-md-12 col-lg-6">
+                        <div class="row">
+                          <div class="col-2"><img
+                              src="https://d19m59y37dris4.cloudfront.net/jobs/2-0-2/img/company-1.png" alt="LoremIpsum "
+                              class="img-fluid"></div>
+                          <div class="col-10">
+                            <h4 class="job__title">{{item.nom}} {{item.prenom}}</h4>
+                            <p class="job__company">
+                              {{item.mail}}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2 grow" *ngIf="!item.enableEdition">
+                        <i style="color: rgb(255, 129, 83)" class="fa fa-pencil" (click)="onClick(ind)"></i>
+                      </div>
+                      <div class="col-md-2 grow" *ngIf="item.enableEdition">
+                        <i style="color: rgb(12, 209, 12)" class="fa fa-check" (click)="onClick(ind,item)"></i>
+                      </div>
+                      <div class="col-5 col-md-3 col-lg-3 ml-auto">
+                        <div *ngIf="!item.enableEdition">
+                          <p>{{item.roleDto.nom}}</p>
+                        </div>
+                        <div *ngIf="item.enableEdition">
+                          <select class="custom-select custom-select-sm" required noWhitespace name="role"
+                            [(ngModel)]="item.roleDto.nom">
+                            <option *ngFor="let r of roles" [ngValue]="r">{{r}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card z-depth-0 bordered">
+        <div class="card-header" id="headingThree2">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree2"
+              (click)="toggle(4)" aria-expanded="true" aria-controls="collapseThree2">
+              <b> account creating <i *ngIf="toggle4" class="fa fa-chevron-up"></i>
+                <i *ngIf="!toggle4" class="fa fa-chevron-down"></i>
+              </b>
+            </button>
+          </h5>
+        </div>
+        <div id="collapseThree2" class="collapse" aria-labelledby="headingThree2" data-parent="#accordionExample275">
+          <div class="card-body">
+            <div class="row  col-md-12">
+              <div class="col-md-10"></div>
+              <div class="float-right col-md-2">
+                <button class="btn btn-primary" (click)="addUsr()">
+                  <i class="fa fa-plus"></i>add user
+                </button>
+              </div>
+            </div>
+            <br>
+            <br>
+            <form (ngSubmit)="onsubmit(form)" #form="ngForm">
+              <div class="row justify-content-md-center " *ngFor="let item of usrList ; let ind = index;"
+                [ngModelGroup]="ind">
+                <div class="col-md-3 form-group ">
+                  <input type="text" class="form-control" name="mail" required noWhitespace [(ngModel)]="item['mail']"
+                    aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="mail" #mail="ngModel"
+                    (input)="onChange($event.target.value)">
+                  <div *ngIf="mail.invalid && (mail.dirty || mail.touched)">
+                    <small *ngIf="mail.errors.required" style="color: rgb(211, 21, 21)">
+                      Email is required.
+                    </small>
+                  </div>
+                </div>
+                <div class="col-md-4 form-group">
+                  <show-hide-password size="sm" btnStyle="primary" [btnOutline]="false">
+                    <input type="text" class="form-control" required noWhitespace name="password" #password="ngModel"
+                      [(ngModel)]="item['password']" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                      placeholder="password">
+                  </show-hide-password>
+                  <div *ngIf="password.invalid && (password.dirty || password.touched)">
+                    <small *ngIf="password.errors.required" style="color: rgb(211, 21, 21)">
+                      Password is required.
+                    </small>
+                  </div>
+                </div>
+                <div class="col-md-3 form-group">
+                  <select class="custom-select custom-select-sm" required name="role" [(ngModel)]="item['role']"
+                    #role="ngModel">
+                    <option *ngFor="let r of roles" [ngValue]="r">{{r.nom}}</option>
+                  </select>
+                  <div *ngIf="role.invalid && (role.dirty || role.touched)">
+                    <small *ngIf="role.errors.required" style="color: rgb(211, 21, 21)">
+                      Role is required.
+                    </small>
+                  </div>
+                </div>
+                <div class=" col-md-2 pull-right shrink " (click)="remove(ind)">
+                  <i class="fa fa-trash-o" style='font-size:25px ; color: rgb(240, 89, 109)'>
+                  </i>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <button type="submit" class="btn btn-outline-success float-left" [disabled]="form.invalid">
+                    <i class="fa fa-magic"></i>Save
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
